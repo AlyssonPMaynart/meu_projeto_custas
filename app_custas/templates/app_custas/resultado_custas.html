@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado do Cálculo de Custas</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        .result-box { border: 1px solid #ccc; padding: 15px; margin-top: 20px; border-radius: 5px; background-color: #f9f9f9; }
+        .result-box h3 { margin-top: 0; color: #007bff; }
+        .result-box p { margin: 5px 0; }
+        .result-total { font-size: 1.2em; font-weight: bold; color: #dc3545; margin-top: 15px; }
+        .details-section { margin-top: 20px; border-top: 1px dashed #eee; padding-top: 15px; }
+        .details-item { margin-bottom: 10px; padding: 8px; background-color: #e9ecef; border-radius: 3px; }
+        .details-item strong { color: #343a40; }
+    </style>
+</head>
+<body>
+    <h1>Resultado do Cálculo de Custas</h1>
+    {% if erro_msg %}
+        <p style="color: red;">{{ erro_msg }}</p>
+    {% else %}
+        <div class="result-box">
+            <p><strong>Tipo de Recurso:</strong> {{ tipo_recurso|capfirst }}</p>
+            <p><strong>Valor da Causa/Condenação:</strong> R$ {{ valor_causa|floatformat:2 }}</p>
+
+            <div class="details-section">
+                <h3>Detalhamento do Cálculo:</h3>
+                {% for detalhe in detalhes_calculo %}
+                    <div class="details-item">
+                        <h4>{{ detalhe.titulo }}</h4>
+                        <p>Custas Judiciais: R$ {{ detalhe.custas_judiciais|floatformat:2 }}</p>
+                        <p>FUNSEG (0.5%): R$ {{ detalhe.funseg|floatformat:2 }}</p>
+                        <p><strong>Total deste item: R$ {{ detalhe.total|floatformat:2 }}</strong></p>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <p class="result-total">
+                Valor Total do Preparo: R$ {{ valor_total_preparo|floatformat:2 }}
+            </p>
+        </div>
+    {% endif %}
+    <p><a href="{% url 'escolha_recurso' %}">Realizar novo cálculo</a></p>
+</body>
+</html>

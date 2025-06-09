@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular Custas - {{ tipo_recurso|capfirst }}</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        form div { margin-bottom: 10px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="number"] { padding: 8px; border: 1px solid #ccc; border-radius: 4px; width: 200px; }
+        button { padding: 10px 15px; background-color: #28a745; color: white; border: none; cursor: pointer; border-radius: 4px; }
+        button:hover { background-color: #218838; }
+        .errorlist { color: red; list-style-type: none; padding: 0; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Cálculo de Custas para {{ tipo_recurso|capfirst }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if erro_msg %}
+            <p style="color: red;">{{ erro_msg }}</p>
+        {% endif %}
+        <button type="submit">Calcular</button>
+    </form>
+    <p><a href="{% url 'escolha_recurso' %}">Voltar para a escolha do recurso</a></p>
+</body>
+</html>
